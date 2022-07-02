@@ -54,19 +54,20 @@ textarea{
 }
 
 .past {
-  background-color: #d3d3d3;
+  background-color: #d3d3d3 !important;
   color: white;
 }
 
 .present {
-  background-color: #ff6961;
+  background-color: #ff6961 !important;
   color: white;
 }
 
 .future {
-  background-color: #77dd77;
+  background-color: #77dd77 !important;
   color: white;
 }
+
 
 .saveBtn {
   border-left: 1px solid black;
@@ -89,4 +90,10 @@ textarea{
 .fill-space {
   height: 100%;
   width: 100%;
+}
+.format-text{
+  font-size: 20px;
+  color: #000000;
+  text-align: left;
+
 }

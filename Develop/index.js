@@ -14,40 +14,49 @@ var schedule = [
 
     {
         title: '9AM',
-        content: ''
+        content: '',
+        code: '9'
     },
     {
         title: '10AM',
-        content: ''
+        content: '',
+        code: '10'
     },
     {
         title: '11AM',
-        content: ''
+        content: '',
+        code: '11'
     },
     {
         title: '12PM',
-        content: ''
+        content: '',
+        code: '12'
     },
     {
         title: '1PM',
-        content: ''
+        content: '',
+        code: '13'
     },
     {
         title: '2PM',
-        content: ''
+        content: '',
+        code: '14'
     },
     {
         title: '3PM',
-        content: ''
+        content: '',
+        code: '15'
     },
     {
         title: '4PM',
-        content: ''
+        content: '',
+        code: '16'
     },
 
     {
         title: '5PM',
-        content: ''
+        content: '',
+        code: '17'
     }
 
 
@@ -81,17 +90,30 @@ function fillTimeBlocks() {
         var blockTime = document.createElement('div');
         blockTime.classList.add('block-time', 'col-sm-1', 'hour', 'fill-space');
         blockTime.innerHTML = schedule[i].title;
+        blockTime.id = 'blockTime' + i;
 
         //Element for holding events
-        var timeBlock = document.createElement('div');
-        timeBlock.classList.add('time-block', 'list-group-item', 'list-group-item-action', 'list-group-item-secondary', 'col-sm-10', 'fill-space');
+        var timeBlock = document.createElement('INPUT');
+        timeBlock.id = 'timeBlock' + i;
+        timeBlock.classList.add('time-block','format-text', 'list-group-item', 'list-group-item-action', 'list-group-item-secondary', 'col-sm-10', 'fill-space');
+        //add text content to time block
+        timeBlock.value = schedule[i].content;
         //Element for saving event to local storage
         var saveButton = document.createElement('button');
+        saveButton.id = 'saveButton' + i;
         saveButton.classList.add('saveBtn', 'col-sm-1', 'fill-space');
 
 
         //check the current time and add class to time block
-
+        if (schedule[i].code == moment().hour()) {
+            timeBlock.classList.add('present');
+        }
+        else if(schedule[i].code > moment().hour()){
+            timeBlock.classList.add('future');
+        }
+        else{
+            timeBlock.classList.add('past');
+        }
 
 
 
@@ -104,10 +126,21 @@ function fillTimeBlocks() {
 }
 fillTimeBlocks();
 
-//gets the schedule from local storage and adds it to array of time blocks
+//gets the saved information from local storage and adds it to the schedule
 function getBlockContent() {
 
+    for (var i = 0; i < 9; i++) {
 
+        var blockContent = localStorage.getItem(i);
+        // console.log(localStorage.getItem(i));
+        if(blockContent != null){
+        schedule[i].content = blockContent;
+        console.log(blockContent);
+        }
+
+        //the schedule content is null because it is empty 
+
+    }
 
 
 
@@ -123,6 +156,44 @@ function setCurrentDay(){
    
 }
 setCurrentDay();
+
+// console.log(moment().hour());
+
+
+
+
+
+
+
+//creating one event listener for all time blocks and save buttons
+
+
+var mainButtonListener = container.addEventListener('click', function(event) {
+
+
+    //prints event of element id to console
+    console.log(String(event.target.id));
+
+    
+   
+    //if the event click is a button then save the timeBlock input to local storage
+    if(event.target.nodeName == 'BUTTON'){
+        // console.log("you just clicked a saveButton")
+        //current index of time block
+        var indexOfRow = event.target.id.slice(-1);
+        //put row content into local storage
+
+        localStorage.setItem(indexOfRow, document.getElementById(('timeBlock' + indexOfRow)).value);
+     }
+
+
+
+ 
+
+
+
+
+});
 
 
 
